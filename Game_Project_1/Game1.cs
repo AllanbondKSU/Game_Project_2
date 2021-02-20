@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Game_Project_1
 {
@@ -18,6 +20,10 @@ namespace Game_Project_1
 
         private ExitSprite exitSprite;
         private bool exit;
+
+        private SoundEffect coinPickup;
+        private Song backgroundMusic;
+       
 
         /// <summary>
         /// Our game in which the player must collect 10 coins to make the exit appear.
@@ -59,13 +65,17 @@ namespace Game_Project_1
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
 
             // TODO: use this.Content to load your game content here
             foreach (var coin in coins) coin.LoadContent(Content);
             batSprite.LoadContent(Content);
             bangers = Content.Load<SpriteFont>("bangers");
             exitSprite.LoadContent(Content);
+            coinPickup = Content.Load<SoundEffect>("Pickup_Coin14");
+            backgroundMusic = Content.Load<Song>("Bio Unit - Docking");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(backgroundMusic);
         }
         /// <summary>
         /// Updates our game assets
@@ -85,6 +95,7 @@ namespace Game_Project_1
                 if(!coin.Collected && coin.Bounds.CollidesWith(batSprite.Bounds))
                 {
                     coinsCollected++;
+                    coinPickup.Play();
                     coin.Move(new Vector2((float)rand.NextDouble() * GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * GraphicsDevice.Viewport.Height));
                 }
             }
@@ -96,6 +107,36 @@ namespace Game_Project_1
                 Exit();
             }
             
+            foreach(var coin in coins)
+            {
+                coin.Update(gameTime);
+                if(!coin.Collected && coin.Bounds.Center.X <= 0)
+                {
+
+                        coin.Velocity.X = 100;
+                        coin.Acceleration.X = 20;
+
+                }
+                if (!coin.Collected && coin.Bounds.Center.X >= GraphicsDevice.Viewport.Width)
+                {
+                        coin.Velocity.X = -100;
+                        coin.Acceleration.X = -20;
+                }
+
+                if (!coin.Collected && coin.Bounds.Center.Y <= 0)
+                {
+                        coin.Velocity.Y = 100;
+                        coin.Acceleration.Y = 20;
+                }
+
+                if (!coin.Collected && coin.Bounds.Center.Y >= GraphicsDevice.Viewport.Height)
+                {
+                        coin.Velocity.Y = -100;
+                        coin.Acceleration.Y = -20;
+
+                }
+
+            }
 
             base.Update(gameTime);
         }

@@ -23,6 +23,9 @@ namespace Game_Project_1
 
         private BoundingCircle bounds;
 
+        public Vector2 Velocity;
+        public Vector2 Acceleration;
+
         public BoundingCircle Bounds => bounds;
 
 
@@ -37,6 +40,8 @@ namespace Game_Project_1
         {
             this.position = position;
             this.bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
+            this.Velocity = new Vector2(50, 50);
+            this.Acceleration = new Vector2(20, 20);
         }
 
         /// <summary>
@@ -64,10 +69,18 @@ namespace Game_Project_1
                 if (animationFrame > 7) animationFrame = 0;
                 animationTimer -= ANIMATION_SPEED;
             }
-
             var source = new Rectangle(animationFrame * 16, 0, 16, 16);
             spriteBatch.Draw(texture, position, source, Color.White);
         }
+
+        public void Update(GameTime gameTime)
+        {
+            float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Velocity += Acceleration * t;
+            position += Velocity * t;
+            this.bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
+        }
+
         /// <summary>
         /// Moves the coin to a new location
         /// </summary>
