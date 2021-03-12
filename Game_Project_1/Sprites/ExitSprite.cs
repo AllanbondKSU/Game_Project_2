@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Game_Project_1.Collisions;
 
-namespace Game_Project_1
+namespace Game_Project_2.Sprites
 {
     public class ExitSprite
     {
@@ -32,7 +32,9 @@ namespace Game_Project_1
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
             bounds = new BoundingRectangle(new Vector2(200, 200), 8, 8);
+            spriteBatch.Begin();
             spriteBatch.Draw(texture, position, new Rectangle(48, 96, 16, 16), ExitColor);
+            spriteBatch.End();
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Game_Project_1.Collisions;
 
-namespace Game_Project_1
+namespace Game_Project_2.Sprites
 {
     public class CoinSprite
     {
@@ -70,7 +70,9 @@ namespace Game_Project_1
                 animationTimer -= ANIMATION_SPEED;
             }
             var source = new Rectangle(animationFrame * 16, 0, 16, 16);
+            spriteBatch.Begin();
             spriteBatch.Draw(texture, position, source, Color.White);
+            spriteBatch.End();
         }
 
         public void Update(GameTime gameTime)

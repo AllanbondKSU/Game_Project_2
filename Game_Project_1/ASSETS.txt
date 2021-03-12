@@ -9,3 +9,7 @@ Content/coins.png - created by puddin of OpenGameArt.org (https://opengameart.or
 Content/Bio Unit - Docking.mp3 - Created by Bio unit on Free Music Archive (https://freemusicarchive.org/music/Bio_Unit) and released under Attribution-NonCommercial-ShareAlike License
 
 Content/Pickup_Coin14.Wav - Created by me using Bfxr
+
+Content/background.png - Unknown origin, used from in class example
+
+Content/menufont.spritefont - Unknown origin, used from in class example
