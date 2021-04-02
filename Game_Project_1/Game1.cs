@@ -14,6 +14,7 @@ namespace Game_Project_2
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 

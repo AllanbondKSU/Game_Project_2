@@ -42,6 +42,7 @@ namespace GameArchitectureExample.StateManagement
         public ScreenManager(Game game) : base(game)
         {
             _content = new ContentManager(game.Services, "Content");
+            
         }
 
         /// <summary>

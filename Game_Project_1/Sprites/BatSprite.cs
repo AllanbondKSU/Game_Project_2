@@ -22,12 +22,16 @@ namespace Game_Project_2.Sprites
         private short animationFrame = 1;
         private KeyboardState keyboardState;
         private Texture2D texture;
+        private Vector2 velocity;
+
+        public int level = 1;
 
         private Direction direction;
-        private Vector2 position = new Vector2(200, 200);
+        private Vector2 position = new Vector2(200,200);
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(200 - 32, 200 - 32), 32, 32);
 
         public BoundingRectangle Bounds => bounds;
+        public Vector2 Position => position;
 
         public void LoadContent(ContentManager content)
         {
@@ -42,27 +46,56 @@ namespace Game_Project_2.Sprites
             keyboardState = Keyboard.GetState();
 
             // Apply keyboard movement and track direction
-            if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
+            if (level == 1)
             {
-                position += new Vector2(0, -1);
-                direction = Direction.Up;
+                if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W))
+                {
+                    position += new Vector2(0, -1);
+                    direction = Direction.Up;
+                }
+                if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S))
+                {
+                    position += new Vector2(0, 1);
+                    direction = Direction.Down;
+                }
+                if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
+                {
+                    position += new Vector2(-1, 0);
+                    direction = Direction.Left;
+
+                }
+                if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
+                {
+                    position += new Vector2(1, 0);
+                    direction = Direction.Right;
+
+                }
             }
-            if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S)) 
-            { 
-                position += new Vector2(0, 1);
-                direction = Direction.Down;
-            }
-            if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
+            else
             {
-                position += new Vector2(-1, 0);
-                direction = Direction.Left;
-               
-            }
-            if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
-            {
-                position += new Vector2(1, 0);
-                direction = Direction.Right;
                 
+                var keyboardState = Keyboard.GetState();
+                float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                if (keyboardState.IsKeyDown(Keys.Left)) position -= Vector2.UnitX * 100*t;
+                if (keyboardState.IsKeyDown(Keys.Right)) position += Vector2.UnitX * 100*t;
+                if (keyboardState.IsKeyDown(Keys.Up)) position -= Vector2.UnitY * 60*t;
+                if (keyboardState.IsKeyDown(Keys.Down)) position += Vector2.UnitY * 120*t;
+                /*
+                direction = Direction.Right;
+                KeyboardState keyboardState = Keyboard.GetState();
+
+                float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                Vector2 acceleration = new Vector2(0, 50);
+                if (keyboardState.IsKeyDown(Keys.Space))
+                {
+                    acceleration += new Vector2(0, -100);
+                }
+
+                velocity += acceleration * t;
+                position += velocity * t;
+                */
             }
             bounds.Y = position.Y;
             bounds.X = position.X;

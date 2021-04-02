@@ -7,11 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Game_Project_1.Collisions;
 
+
 namespace Game_Project_2.Sprites
 {
     public class ExitSprite
     {
-        private Vector2 position = new Vector2(200, 200);
+        public Vector2 position;
         private BoundingRectangle bounds;
         private Texture2D texture;
         public Color ExitColor = Color.Red;
@@ -31,7 +32,7 @@ namespace Game_Project_2.Sprites
         /// <param name="spriteBatch">the sprite batch</param>
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
-            bounds = new BoundingRectangle(new Vector2(200, 200), 8, 8);
+            bounds = new BoundingRectangle(new Vector2(position.X, position.Y), 8, 8);
             spriteBatch.Begin();
             spriteBatch.Draw(texture, position, new Rectangle(48, 96, 16, 16), ExitColor);
             spriteBatch.End();

@@ -15,7 +15,7 @@ namespace GameArchitectureExample.Screens
     // This screen implements the actual game logic. It is just a
     // placeholder to get the idea across: you'll probably want to
     // put some more interesting gameplay in here!
-    public class GameplayScreen : GameScreen
+    public class GameplayScreen2 : GameScreen
     {
         private ContentManager _content;
         private SpriteFont _gameFont;
@@ -33,8 +33,11 @@ namespace GameArchitectureExample.Screens
         private bool exitDrawn = false;
         public SoundEffect coinPickup;
         private Song backgroundMusic;
+        private Texture2D _foreground;
+        private Texture2D _midground;
+        private Texture2D _background;
 
-        public GameplayScreen()
+        public GameplayScreen2()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
@@ -42,6 +45,7 @@ namespace GameArchitectureExample.Screens
             _pauseAction = new InputAction(
                 new[] { Buttons.Start, Buttons.Back },
                 new[] { Keys.Back }, true);
+           
         }
 
         // Load graphics content for the game
@@ -56,7 +60,16 @@ namespace GameArchitectureExample.Screens
             batSprite = new BatSprite();
             exitSprite = new ExitSprite();
 
-            //Creates initial coins.
+            batSprite.LoadContent(_content);
+            bangers = _content.Load<SpriteFont>("bangers");
+            exitSprite.LoadContent(_content);
+            coinPickup = _content.Load<SoundEffect>("Pickup_Coin14");
+            _foreground = _content.Load<Texture2D>("foreground");
+            _midground = _content.Load<Texture2D>("midground");
+            _background = _content.Load<Texture2D>("backgroundscene");
+            backgroundMusic = _content.Load<Song>("Bio Unit - Docking");
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(backgroundMusic);
             System.Random rand = new System.Random();
             coins = new CoinSprite[]
             {
@@ -68,16 +81,7 @@ namespace GameArchitectureExample.Screens
                 new CoinSprite(new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height)),
                 new CoinSprite(new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height))
             };
-
             foreach (var coin in coins) coin.LoadContent(_content);
-            batSprite.LoadContent(_content);
-            bangers = _content.Load<SpriteFont>("bangers");
-            exitSprite.LoadContent(_content);
-            coinPickup = _content.Load<SoundEffect>("Pickup_Coin14");
-            backgroundMusic = _content.Load<Song>("Bio Unit - Docking");
-            MediaPlayer.IsRepeating = true;
-            MediaPlayer.Play(backgroundMusic);
-
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
@@ -100,7 +104,7 @@ namespace GameArchitectureExample.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
-            
+            batSprite.level = 2;
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 _pauseAlpha = Math.Min(_pauseAlpha + 1f / 32, 1);
@@ -122,16 +126,12 @@ namespace GameArchitectureExample.Screens
                         coin.Move(new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height));
                     }
                 }
-                if (coinsCollected >= 1) exit = true;
-                if (!exitDrawn)
-                {
-                    exitSprite.position = new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height);
-                    exitDrawn = true;
-                }
+                
+                exitSprite.position = new Vector2(800,800);
+
                 if (exit && batSprite.Bounds.CollidesWith(exitSprite.Bounds))
                 {
-                    batSprite.level = 2;
-                    LoadingScreen.Load(ScreenManager, true, 0, new GameplayScreen2());
+                    LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
                     MediaPlayer.Stop();
                 }
 
@@ -216,7 +216,7 @@ namespace GameArchitectureExample.Screens
                 if (movement.Length() > 1)
                     movement.Normalize();
 
-              
+
             }
         }
 
@@ -237,15 +237,36 @@ namespace GameArchitectureExample.Screens
             foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
             spriteBatch.End();
 
-            spriteBatch.Begin();
-            batSprite.Draw(gameTime, _spriteBatch);
-            spriteBatch.End();
+            float playerX = MathHelper.Clamp(batSprite.Position.X, 300, 13600);
+            float offsetX = 300 - playerX;
 
-            _spriteBatch.Begin();
-            _spriteBatch.DrawString(bangers, $"Coins Collected: {coinsCollected} / 10", new Vector2(2, 2), Color.Gold);
+            Matrix transform;
+
+            // TODO: Add your drawing code here
+            transform = Matrix.CreateTranslation(offsetX * 0.333f, 0, 0);
+            _spriteBatch.Begin(transformMatrix: transform);
+            _spriteBatch.Draw(_background, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
+            transform = Matrix.CreateTranslation(offsetX * 0.666f, 0, 0);
+            _spriteBatch.Begin(transformMatrix: transform);
+            _spriteBatch.Draw(_midground, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            transform = Matrix.CreateTranslation(offsetX, 0, 0);
+            _spriteBatch.Begin(transformMatrix: transform);
+            _spriteBatch.Draw(_foreground, Vector2.Zero, Color.White);
             
+            _spriteBatch.End();
+            foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
+            exitSprite.Draw(gameTime, _spriteBatch);
+            batSprite.Draw(gameTime, _spriteBatch);
+
+            _spriteBatch.Begin();
+            _spriteBatch.DrawString(bangers, $"Coins Collected: {coinsCollected} / 20", new Vector2(2, 2), Color.Gold);
+            _spriteBatch.End();
+
+
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || _pauseAlpha > 0)
