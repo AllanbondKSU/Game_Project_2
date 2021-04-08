@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using GameArchitectureExample.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace Game_Project2
+namespace Game_Project_2
 {
     public class PixieParticleSystem: ParticleSystem
     {
@@ -30,7 +31,7 @@ namespace Game_Project2
             var scale = RandomHelper.NextFloat(0.1f, 0.5f);
             var lifetime = RandomHelper.NextFloat(0.1f, 1.0f);
 
-            p.Initialize(where, velocity, acceleration, Color.Goldenrod, scale: scale, lifetime: lifetime);
+            p.Initialize(where, velocity, acceleration, Color.Red, scale: scale, lifetime: lifetime);
         }
 
         public override void Update(GameTime gameTime)

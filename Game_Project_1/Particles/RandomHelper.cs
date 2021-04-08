@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace Game_Project2
+namespace Game_Project_2
 {
     /// <summary>
     /// A static class providing helper methods for generating 

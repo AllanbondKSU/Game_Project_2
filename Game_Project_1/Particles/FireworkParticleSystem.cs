@@ -5,13 +5,23 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 namespace Game_Project_2
 {
-    public class ExplosionParticleSystem: ParticleSystem
+    public class FireworkParticleSystem: ParticleSystem
     {
-        public ExplosionParticleSystem(Game game, int maxExplosions) : base(game, maxExplosions * 25) { }
+        Color[] colors = new Color[]
+        {
+            Color.Gold,
+            Color.Yellow,
+            Color.White,
+            Color.Goldenrod,
+            Color.DarkGoldenrod
+        };
+
+        Color _color;
+        public FireworkParticleSystem(Game game, int maxExplosions) : base(game, maxExplosions * 25) { }
 
         protected override void InitializeConstants()
         {
-            textureFilename = "explosion";
+            textureFilename = "circle";
 
             minNumParticles = 20;
             maxNumParticles = 25;
@@ -28,8 +38,9 @@ namespace Game_Project_2
             var acceleration = -velocity / lifetime;
             var rotation = RandomHelper.NextFloat(0, MathHelper.TwoPi);
             var angularVelocity = RandomHelper.NextFloat(-MathHelper.PiOver4, MathHelper.PiOver4);
+            var scale = RandomHelper.NextFloat(4, 6);
 
-            p.Initialize(where, velocity, acceleration, lifetime: lifetime, rotation: rotation, angularVelocity: angularVelocity);
+            p.Initialize(where, velocity, acceleration, _color, lifetime: lifetime, rotation: rotation, angularVelocity: angularVelocity, scale: scale);
         }
 
         protected override void UpdateParticle(ref Particle particle, float dt)
@@ -38,12 +49,14 @@ namespace Game_Project_2
 
             float normalizedLifetime = particle.TimeSinceStart / particle.Lifetime;
 
-            float alpha = 4 * normalizedLifetime * (1 - normalizedLifetime);
-            particle.Color = Color.White * alpha;
 
             particle.Scale = .1f + .25f * normalizedLifetime;
         }
 
-        public void PlaceExplosion(Vector2 where) => AddParticles(where);
+        public void PlaceFirework(Vector2 where)
+        {
+            _color = colors[RandomHelper.Next(colors.Length)];
+            AddParticles(where);
+        }
     }
 }
