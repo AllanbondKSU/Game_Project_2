@@ -122,7 +122,7 @@ namespace GameArchitectureExample.Screens
                         coin.Move(new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height));
                     }
                 }
-                if (coinsCollected >= 1) exit = true;
+                if (coinsCollected >= 10) exit = true;
                 if (!exitDrawn)
                 {
                     exitSprite.position = new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height);
@@ -132,6 +132,7 @@ namespace GameArchitectureExample.Screens
                 {
                     batSprite.level = 2;
                     LoadingScreen.Load(ScreenManager, true, 0, new GameplayScreen2());
+                    
                     MediaPlayer.Stop();
                 }
 

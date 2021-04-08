@@ -26,7 +26,7 @@ namespace GameArchitectureExample.Screens
         private SpriteBatch _spriteBatch;
         private CoinSprite[] coins;
         private int coinsCollected;
-        private BatSprite batSprite;
+        private BatSprite batSprite2;
         private SpriteFont bangers;
         private ExitSprite exitSprite;
         private bool exit;
@@ -57,10 +57,10 @@ namespace GameArchitectureExample.Screens
             _gameFont = _content.Load<SpriteFont>("gamefont");
             _spriteBatch = new SpriteBatch(ScreenManager.GraphicsDevice);
 
-            batSprite = new BatSprite();
+            batSprite2 = new BatSprite();
             exitSprite = new ExitSprite();
 
-            batSprite.LoadContent(_content);
+            batSprite2.LoadContent(_content);
             bangers = _content.Load<SpriteFont>("bangers");
             exitSprite.LoadContent(_content);
             coinPickup = _content.Load<SoundEffect>("Pickup_Coin14");
@@ -103,8 +103,8 @@ namespace GameArchitectureExample.Screens
         // stop updating when the pause menu is active, or if you tab away to a different application.
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            base.Update(gameTime, otherScreenHasFocus, false);
-            batSprite.level = 2;
+            
+            batSprite2.level = 2;
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
                 _pauseAlpha = Math.Min(_pauseAlpha + 1f / 32, 1);
@@ -114,12 +114,12 @@ namespace GameArchitectureExample.Screens
             if (IsActive)
             {
                 // TODO: Add your update logic here
-                batSprite.Update(gameTime);
+                batSprite2.Update(gameTime);
 
                 System.Random rand = new System.Random();
                 foreach (var coin in coins)
                 {
-                    if (!coin.Collected && coin.Bounds.CollidesWith(batSprite.Bounds))
+                    if (!coin.Collected && coin.Bounds.CollidesWith(batSprite2.Bounds))
                     {
                         coinsCollected++;
                         coinPickup.Play();
@@ -129,7 +129,7 @@ namespace GameArchitectureExample.Screens
                 
                 exitSprite.position = new Vector2(800,800);
 
-                if (exit && batSprite.Bounds.CollidesWith(exitSprite.Bounds))
+                if (exit && batSprite2.Bounds.CollidesWith(exitSprite.Bounds))
                 {
                     LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
                     MediaPlayer.Stop();
@@ -165,7 +165,9 @@ namespace GameArchitectureExample.Screens
                     }
 
                 }
+                
             }
+            base.Update(gameTime, otherScreenHasFocus, false);
         }
 
         // Unlike the Update method, this will only be called when the gameplay screen is active.
@@ -237,7 +239,7 @@ namespace GameArchitectureExample.Screens
             foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
             spriteBatch.End();
 
-            float playerX = MathHelper.Clamp(batSprite.Position.X, 300, 13600);
+            float playerX = MathHelper.Clamp(batSprite2.Position.X, 300, 13600);
             float offsetX = 300 - playerX;
 
             Matrix transform;
@@ -260,10 +262,10 @@ namespace GameArchitectureExample.Screens
             _spriteBatch.End();
             foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
             exitSprite.Draw(gameTime, _spriteBatch);
-            batSprite.Draw(gameTime, _spriteBatch);
+            batSprite2.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.Begin();
-            _spriteBatch.DrawString(bangers, $"Coins Collected: {coinsCollected} / 20", new Vector2(2, 2), Color.Gold);
+            _spriteBatch.DrawString(bangers, $"Coins Collected: {coinsCollected} / 20", new Vector2(2, 2), Color.Red);
             _spriteBatch.End();
 
 

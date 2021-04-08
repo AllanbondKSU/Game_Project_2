@@ -74,7 +74,7 @@ namespace Game_Project_2.Sprites
             else
             {
                 
-                var keyboardState = Keyboard.GetState();
+                
                 float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (keyboardState.IsKeyDown(Keys.Left)) position -= Vector2.UnitX * 100*t;
