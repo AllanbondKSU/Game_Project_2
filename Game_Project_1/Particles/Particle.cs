@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace ParticleSystemExample
+namespace Game_Project2
 {
     /// <summary>
     /// A class representing a single particle in a particle system 

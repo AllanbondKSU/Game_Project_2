@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-namespace ParticleSystemExample
+namespace Game_Project2
 {
     public class ExplosionParticleSystem: ParticleSystem
     {

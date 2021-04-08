@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
-namespace ParticleSystemExample
+namespace Game_Project2
 {
     public interface IParticleEmitter
     {
