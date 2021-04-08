@@ -27,7 +27,7 @@ namespace Game_Project_2.Sprites
         public int level = 1;
 
         private Direction direction;
-        private Vector2 position = new Vector2(200,200);
+        public Vector2 position = new Vector2(200,200);
         private BoundingRectangle bounds = new BoundingRectangle(new Vector2(200 - 32, 200 - 32), 32, 32);
 
         public BoundingRectangle Bounds => bounds;
