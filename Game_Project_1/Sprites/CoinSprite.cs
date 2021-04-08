@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-using Game_Project_1.Collisions;
+using Game_Project_2.Collisions;
 
 namespace Game_Project_2.Sprites
 {

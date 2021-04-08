@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Game_Project_1.Collisions
+namespace Game_Project_2.Collisions
 
 {
     public struct BoundingRectangle

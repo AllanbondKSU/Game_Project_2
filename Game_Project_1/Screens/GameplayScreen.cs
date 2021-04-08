@@ -8,7 +8,7 @@ using GameArchitectureExample.StateManagement;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
 using Game_Project_2.Sprites;
-
+using Game_Project_2;
 
 namespace GameArchitectureExample.Screens
 {
@@ -34,6 +34,10 @@ namespace GameArchitectureExample.Screens
         public SoundEffect coinPickup;
         private Song backgroundMusic;
 
+        private ExplosionParticleSystem explosion;
+        private bool exploded = false;
+
+        private FireworkParticleSystem firework;
         public GameplayScreen()
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
@@ -56,6 +60,14 @@ namespace GameArchitectureExample.Screens
             batSprite = new BatSprite();
             exitSprite = new ExitSprite();
 
+            PixieParticleSystem pixie = new PixieParticleSystem(ScreenManager.Game,batSprite);
+            ScreenManager.Game.Components.Add(pixie);
+
+            explosion = new ExplosionParticleSystem(ScreenManager.Game, 20);
+            ScreenManager.Game.Components.Add(explosion);
+
+            firework = new FireworkParticleSystem(ScreenManager.Game, 20);
+            ScreenManager.Game.Components.Add(firework);
             //Creates initial coins.
             System.Random rand = new System.Random();
             coins = new CoinSprite[]
@@ -117,6 +129,7 @@ namespace GameArchitectureExample.Screens
                 {
                     if (!coin.Collected && coin.Bounds.CollidesWith(batSprite.Bounds))
                     {
+                        firework.PlaceFirework(batSprite.Position);
                         coinsCollected++;
                         coinPickup.Play();
                         coin.Move(new Vector2((float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Width, (float)rand.NextDouble() * ScreenManager.GraphicsDevice.Viewport.Height));
@@ -234,6 +247,11 @@ namespace GameArchitectureExample.Screens
             if (exit)
             {
                 exitSprite.Draw(gameTime, _spriteBatch);
+                if(!exploded)
+                {
+                    exploded = true;
+                    explosion.PlaceExplosion(exitSprite.position);
+                }
             }
             foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
             spriteBatch.End();
