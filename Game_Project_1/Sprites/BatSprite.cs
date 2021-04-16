@@ -81,10 +81,10 @@ namespace Game_Project_2.Sprites
                 
                 float t = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (keyboardState.IsKeyDown(Keys.Left)) position -= Vector2.UnitX * 100*t;
-                if (keyboardState.IsKeyDown(Keys.Right)) position += Vector2.UnitX * 100*t;
-                if (keyboardState.IsKeyDown(Keys.Up)) position -= Vector2.UnitY * 60*t;
-                if (keyboardState.IsKeyDown(Keys.Down)) position += Vector2.UnitY * 120*t;
+                if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A)) position -= Vector2.UnitX * 100*t;
+                if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D)) position += Vector2.UnitX * 100*t;
+                if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W)) position -= Vector2.UnitY * 60*t;
+                if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S)) position += Vector2.UnitY * 120*t;
                 /*
                 direction = Direction.Right;
                 KeyboardState keyboardState = Keyboard.GetState();
