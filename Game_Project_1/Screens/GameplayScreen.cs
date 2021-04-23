@@ -60,9 +60,6 @@ namespace GameArchitectureExample.Screens
             batSprite = new BatSprite();
             exitSprite = new ExitSprite();
 
-            PixieParticleSystem pixie = new PixieParticleSystem(ScreenManager.Game,batSprite);
-            ScreenManager.Game.Components.Add(pixie);
-
             explosion = new ExplosionParticleSystem(ScreenManager.Game, 20);
             ScreenManager.Game.Components.Add(explosion);
 
@@ -143,10 +140,8 @@ namespace GameArchitectureExample.Screens
                 }
                 if (exit && batSprite.Bounds.CollidesWith(exitSprite.Bounds))
                 {
-                    batSprite.level = 2;
-                    LoadingScreen.Load(ScreenManager, true, 0, new GameplayScreen2());
-                    
                     MediaPlayer.Stop();
+                    LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
                 }
 
                 foreach (var coin in coins)
