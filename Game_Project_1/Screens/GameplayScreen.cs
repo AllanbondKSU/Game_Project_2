@@ -33,6 +33,7 @@ namespace GameArchitectureExample.Screens
         private bool exitDrawn = false;
         public SoundEffect coinPickup;
         private Song backgroundMusic;
+        private Texture2D background;
 
         private ExplosionParticleSystem explosion;
         private bool exploded = false;
@@ -60,8 +61,11 @@ namespace GameArchitectureExample.Screens
             batSprite = new BatSprite();
             exitSprite = new ExitSprite();
 
+            background = _content.Load<Texture2D>("dark-cave");
+
             explosion = new ExplosionParticleSystem(ScreenManager.Game, 20);
             ScreenManager.Game.Components.Add(explosion);
+            SoundEffect.MasterVolume = 0.5f;
 
             firework = new FireworkParticleSystem(ScreenManager.Game, 20);
             ScreenManager.Game.Components.Add(firework);
@@ -237,8 +241,8 @@ namespace GameArchitectureExample.Screens
             // Our player and enemy are both actually just text strings.
             var spriteBatch = ScreenManager.SpriteBatch;
 
-            spriteBatch.Begin();
-
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(background, Vector2.Zero, new Rectangle(0,0,626,374), Color.White, 0, Vector2.Zero,1.5f, SpriteEffects.None, 0);
             if (exit)
             {
                 exitSprite.Draw(gameTime, _spriteBatch);
@@ -249,11 +253,11 @@ namespace GameArchitectureExample.Screens
                 }
             }
             foreach (var coin in coins) coin.Draw(gameTime, _spriteBatch);
-            spriteBatch.End();
+            _spriteBatch.End();
 
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
             batSprite.Draw(gameTime, _spriteBatch);
-            spriteBatch.End();
+            _spriteBatch.End();
 
             _spriteBatch.Begin();
             _spriteBatch.DrawString(bangers, $"Coins Collected: {coinsCollected} / 10", new Vector2(2, 2), Color.Gold);

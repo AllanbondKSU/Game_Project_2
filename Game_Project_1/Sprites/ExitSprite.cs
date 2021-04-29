@@ -33,9 +33,7 @@ namespace Game_Project_2.Sprites
         public void Draw(GameTime gameTime,SpriteBatch spriteBatch)
         {
             bounds = new BoundingRectangle(new Vector2(position.X, position.Y), 8, 8);
-            spriteBatch.Begin();
             spriteBatch.Draw(texture, position, new Rectangle(48, 96, 16, 16), ExitColor);
-            spriteBatch.End();
         }
     }
 }

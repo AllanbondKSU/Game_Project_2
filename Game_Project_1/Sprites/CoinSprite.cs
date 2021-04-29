@@ -42,6 +42,7 @@ namespace Game_Project_2.Sprites
             this.bounds = new BoundingCircle(position + new Vector2(8, 8), 8);
             this.Velocity = new Vector2(50, 50);
             this.Acceleration = new Vector2(20, 20);
+            
         }
 
         /// <summary>
@@ -70,9 +71,8 @@ namespace Game_Project_2.Sprites
                 animationTimer -= ANIMATION_SPEED;
             }
             var source = new Rectangle(animationFrame * 16, 0, 16, 16);
-            spriteBatch.Begin();
             spriteBatch.Draw(texture, position, source, Color.White);
-            spriteBatch.End();
+
         }
 
         public void Update(GameTime gameTime)

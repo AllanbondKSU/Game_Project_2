@@ -124,9 +124,8 @@ namespace Game_Project_2.Sprites
             }
 
             var sourceRectangle = new Rectangle(animationFrame*32,(int)direction*32,32,32);
-            spriteBatch.Begin();
             spriteBatch.Draw(texture, position, sourceRectangle, Color.White);
-            spriteBatch.End();
+
         }
     }
 
