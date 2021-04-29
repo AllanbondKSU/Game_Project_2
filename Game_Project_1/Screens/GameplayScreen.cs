@@ -229,7 +229,7 @@ namespace GameArchitectureExample.Screens
                 if (movement.Length() > 1)
                     movement.Normalize();
 
-              
+            
             }
         }
 
